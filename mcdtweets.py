@@ -1,9 +1,20 @@
+# -*- coding: utf-8 -*-
+
+
+from datetime import datetime, timedelta
+
 import tweepy
 import csv
 import pickle
 import psycopg2
 import pandas as pd
-####input your credentials here
+
+
+yesterday = datetime.now() - timedelta(days=1)
+year=yesterday.strftime('%y')
+month=yesterday.strftime('%m')
+date=yesterday.strftime('%d')
+yesterday_date=("20"+str(year)+"-"+str(month)+"-"+str(date))
 consumer_key = 'C8F7iCj6dgci3MPGagTH0PYdC'
 consumer_secret = 'NAr6hi17LIqHYrreZWf14aGbdw365ue49LGCJbLxjF6sgmXKJG'
 access_token = '144087624-KKzNAWjccMEYpYr6Zf9USlccOBrNJZ9nHNMe8HmL'
@@ -13,7 +24,7 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth,wait_on_rate_limit=True)
 #####United Airlines
-# Open/Create a file to append data
+# Open/Create a file to append dataa
 csvFile = open('ua.csv', 'a')
 #Use csv Writer
 csvWriter = csv.writer(csvFile)
@@ -24,10 +35,22 @@ except:
 
 
 cur = conn.cursor()
+alltweets=list
+pos=0
+neg=0
+neu=0
 for tweet in tweepy.Cursor(api.search,q="#mcdonalds",count=100,
                            lang="en",
-                           since="2018-03-26").items():
+                           since=str(yesterday_date)).items():
     print (tweet.created_at, tweet.text)
+    grap = (tweet.text).lower()
+
+    if (u'good'in grap or u'awesome' in grap or u'🙌🏽' in grap or u'💕'in grap or u'🤣' in grap or u'imlovinit' in grap or u'star' in grap or u'🍟' in grap or u'not acceptable'  in grap or u'🙄' in grap  or u'favourite' in grap or u'💯' in grap):
+        pos = pos + 1
+    elif (u'bad' in grap or u'misery' in grap or u'pain' in grap or u'wtf' in grap or u'heartbreaking' in grap or u'☹' in grap or u'imnotlovinit' in grap or u'wth' in grap or u'😢' in grap or u'😭' in grap ):
+        neg = neg + 1
+    else:
+        neu = neu + 1
     createdat=str(tweet.created_at)
     csvWriter.writerow([tweet.created_at, tweet.text.encode('utf-8')])
     try:
@@ -37,3 +60,9 @@ for tweet in tweepy.Cursor(api.search,q="#mcdonalds",count=100,
     conn.commit()
 cur.close()
 conn.close()
+
+"""status_update=" Hello #McDonalds according to today's Sentiment analysis "+str(pos)+" people liked you, "+str(neg)+" disliked you and "+str(neu)+" people are Neutral."
+api.update_status(status_update)"""
+
+with open("logformcd.txt", "a") as myfile:
+    myfile.write(str(datetime.now())+"\n")
