@@ -41,7 +41,7 @@ neg=0
 neu=0
 for tweet in tweepy.Cursor(api.search,q="#mcdonalds",count=100,
                            lang="en",
-                           since=str(yesterday_date)).items():
+                           since=str(yesterday_date),).items():
     """print (tweet.created_at, tweet.text)"""
     grap = (tweet.text).lower()
 #check if a tweet is positive or not
@@ -77,8 +77,8 @@ conn.close()
 print ("Hello #McDonalds according to today's Sentiment analysis "+str(pos)+" people liked you, "+str(neg)+" disliked you and "+str(neu)+
        " people are Neutral.")
 #this is to send a tweet mentioning all details
-"""status_update=" Hello #McDonalds according to today's Sentiment analysis "+str(pos)+" people liked you, "+str(neg)+" disliked you and "+str(neu)+" people are Neutral."
-api.update_status(status_update)"""
+status_update=" Hello #McDonalds according to today's Sentiment analysis "+str(pos)+" people liked you, "+str(neg)+" disliked you and "+str(neu)+" people are Neutral."
+api.update_status(status_update)
 
 with open("logformcd.txt", "a") as myfile:
     myfile.write(str(datetime.now())+"\n")
