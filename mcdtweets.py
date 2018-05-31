@@ -15,10 +15,10 @@ year=yesterday.strftime('%y')
 month=yesterday.strftime('%m')
 date=yesterday.strftime('%d')
 yesterday_date=("20"+str(year)+"-"+str(month)+"-"+str(date))
-consumer_key = 'C8F7iCj6dgci3MPGagTH0PYdC'
-consumer_secret = 'NAr6hi17LIqHYrreZWf14aGbdw365ue49LGCJbLxjF6sgmXKJG'
-access_token = '144087624-KKzNAWjccMEYpYr6Zf9USlccOBrNJZ9nHNMe8HmL'
-access_token_secret = 'HFHCC6hqQVwb3MKyxwgUvYYEKrCey6ey4zs83FxMxL2Ud'
+consumer_key = 'your consumer key'
+consumer_secret = 'your consumer secret'
+access_token = 'access token key'
+access_token_secret = 'token secret key'
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
